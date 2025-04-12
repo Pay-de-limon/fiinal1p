@@ -7,7 +7,7 @@ app = FastAPI()
 class ModelLibro(BaseModel):
     id: int
     Titulo: str
-    Año: str
+    Año: int
     Autor: str
 
 
@@ -18,12 +18,12 @@ libros = [
 ]
 
 # Endpoint para consultar todos los libros
-@app.get("/todosLibros", tags=["Operaciones CRUD"])
+@app.get("/leerTodos", tags=["Endpoints Libros"])
 def leer_libros():
     return {"Libros Registrados": libros}
 
 # Endpoint para guardar un libro
-@app.post("/libros/", response_model=ModelLibro, tags=["Operaciones CRUD"])
+@app.post("/libros/", response_model=ModelLibro, tags=["Endpoints Libros"])
 def guardar_libro(libro: ModelLibro):
     for l in libros:
         if l["id"] == libro.id:
@@ -32,7 +32,7 @@ def guardar_libro(libro: ModelLibro):
     return libro
 
 # Endpoint para actualizar un libro
-@app.put("/libros/{id}", response_model=ModelLibro, tags=["Operaciones CRUD"])
+@app.put("/libros/{id}", response_model=ModelLibro, tags=["Endpoints Libros"])
 def actualizar_libro(id: int, libro_actualizado: ModelLibro):
     for index, l in enumerate(libros):
         if l["id"] == id:
@@ -41,7 +41,7 @@ def actualizar_libro(id: int, libro_actualizado: ModelLibro):
     raise HTTPException(status_code=404, detail="El libro no existe")
 
 # Endpoint para eliminar un libro
-@app.delete("/libros/{id}", tags=["Operaciones CRUD"])
+@app.delete("/libros/{id}", tags=["Endpoints Libros"])
 def eliminar_libro(id: int):
     for index, l in enumerate(libros):
         if l["id"] == id:
@@ -50,7 +50,7 @@ def eliminar_libro(id: int):
     raise HTTPException(status_code=404, detail="El libro no existe")
 
 # Endpoint para consultar un libro por ID
-@app.get("/libros/{id}", response_model=ModelLibro, tags=["Operaciones CRUD"])
+@app.get("/libros/{id}", response_model=ModelLibro, tags=["Endpoints Libros"])
 def obtener_libro(id: int):
     for l in libros:
         if l["id"] == id:
